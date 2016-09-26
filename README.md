@@ -44,11 +44,11 @@ which will make all the example programs in chapter 2 of the "Intel Xeon Phi Cop
 
 ###Step 4
 
-Load your program onto the Phi with a command like: scp a.out uqjscola@mic0:/~ to use scp to move your file onto the phi.
+Load your program onto the Phi with a command like: scp a.out uqjscola@mic0:/home/uqjscola/ to use scp to move your file onto the phi.
 
 ###Step 5
 
-Make sure your LD_LIBRARY_PATH environmental variable (in your linux system running on the phi) is pointing to crucial runtime libraries on the Xeon Phi. If you're using OpenMP, then chances are that you'll be notified that you're missing the file libiomp5.so if you try to run your code at this point. To fix this, use scp again to copy these libraries over. For example, libiomp5.so is found at: ...... on the computer I'm using.
+Make sure your LD_LIBRARY_PATH environmental variable (in your linux system running on the phi) is pointing to crucial runtime libraries on the Xeon Phi. If you're using OpenMP, then chances are that you'll be notified that you're missing the file libiomp5.so if you try to run your code at this point. To fix this, use scp again to copy these libraries over. For example, libiomp5.so is found at: /opt/intel/composerxe/lib/mic/libiomp5.so on the computer I'm using.
 
 ###Step 6
 
