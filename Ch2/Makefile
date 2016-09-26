@@ -1,9 +1,9 @@
-CC              =       icc
-CFLAGS          =      -openmp -O3 -vec-report=3
-FC		=	ifort
-FFLAGS		=      -align array64byte -openmp -O3 -vec-report=3
-MICDIR          =      /home/mic
-MICLIBS		=      /opt/intel/composerxe/lib/mic
+CC			= icc
+CFLAGS		= -openmp -O3 -vec-report=3
+FC			= ifort
+FFLAGS		= -align array64byte -openmp -O3 -vec-report=3
+MICDIR		= /home/mic
+MICLIBS		= /opt/intel/composerxe/lib/mic
 
 hflops1: helloflops1.c
 	$(CC) $(CFLAGS) -mmic helloflops1.c -o helloflops1_xphi
@@ -25,7 +25,7 @@ hmem: hellomem.c
 
 all: hflops1 hflops2 hflops3 hflops3f hflops3o hmem
 
-miccopy: 
+miccopy:
 	sudo scp *_xphi mic0:$(MICDIR)
 
 miclibcopy:
@@ -35,9 +35,6 @@ miclibcopy:
 	@echo ""
 
 
-clean: 
+clean:
 	rm -f ./*_xphi
 	rm -f ./*_xeon
-
-
-
