@@ -1,7 +1,7 @@
 CC			= icc
-CFLAGS		= -qopenmp -O3 -vec-report=3
+CFLAGS		= -qopenmp -O3 -qopt-report=3 -qopt-report-phase=vec
 FC			= ifort
-FFLAGS		= -align array64byte -qopenmp -O3 -qopt-report=3 -qopt-report-phase=vec
+FFLAGS		= -align array64byte -qopenmp -O3 -vec-report=3
 MICDIR		= /home/mic
 MICLIBS		= /opt/intel/composerxe/lib/mic
 
