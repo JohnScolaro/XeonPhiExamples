@@ -1,8 +1,8 @@
 //
 // helloflops1
 //
-// A simple example to try 
-// to get lots of Flops on 
+// A simple example to try
+// to get lots of Flops on
 // Intel(r) Xeon Phi(tm) co-processors.
 //
 
@@ -13,7 +13,7 @@
 //
 // dtime -
 //
-// utility routine to return 
+// utility routine to return
 // the current wall clock time
 //
 double dtime()
@@ -26,28 +26,28 @@ double dtime()
 }
 
 
-#define FLOPS_ARRAY_SIZE (1024*1024) 
+#define FLOPS_ARRAY_SIZE (1024*1024)
 #define MAXFLOPS_ITERS 100000000
 #define LOOP_COUNT 128
 // Floating pt ops per inner loop iteration
-#define FLOPSPERCALC 2     
-// define some arrays - 64 byte aligned for fastest cache access 
-float fa[FLOPS_ARRAY_SIZE] __attribute__((align(64)));
-float fb[FLOPS_ARRAY_SIZE] __attribute__((align(64)));
+#define FLOPSPERCALC 2
+// define some arrays - 64 byte aligned for fastest cache access
+float fa[FLOPS_ARRAY_SIZE] __attribute__((aligned(64)));
+float fb[FLOPS_ARRAY_SIZE] __attribute__((aligned(64)));
 
 //
 // Main program - pedal to the metal...calculate tons o'flops!
-// 
-int main(int argc, char *argv[] ) 
+//
+int main(int argc, char *argv[] )
 {
         int i,j,k;
         double tstart, tstop, ttime;
 	double gflops = 0.0;
    	float a=1.1;
 
-        
+
         //
-        // initialize the compute arrays 
+        // initialize the compute arrays
         //
 
         printf("Initializing\r\n");
@@ -55,27 +55,27 @@ int main(int argc, char *argv[] )
         {
 	    fa[i] = (float)i + 0.1;
             fb[i] = (float)i + 0.2;
-        }	
+        }
 
         printf("Starting Compute\r\n");
 
-        tstart = dtime();	
+        tstart = dtime();
         // loop many times to really get lots of calculations
-        for(j=0; j<MAXFLOPS_ITERS; j++)  
+        for(j=0; j<MAXFLOPS_ITERS; j++)
         {
         //
         // scale 1st array and add in the 2nd array
-        // example usage - y = mx + b; 
+        // example usage - y = mx + b;
         //
-            for(k=0; k<LOOP_COUNT; k++)  
+            for(k=0; k<LOOP_COUNT; k++)
    	    {
                 fa[k] = a * fa[k] + fb[k];
             }
 	 }
          tstop = dtime();
 
-         // # of gigaflops we just calculated  
-         gflops = (double)( 1.0e-9*LOOP_COUNT*MAXFLOPS_ITERS*FLOPSPERCALC);    
+         // # of gigaflops we just calculated
+         gflops = (double)( 1.0e-9*LOOP_COUNT*MAXFLOPS_ITERS*FLOPSPERCALC);
 
 	 // elasped time
          ttime = tstop - tstart;
@@ -87,7 +87,6 @@ int main(int argc, char *argv[] )
          {
              printf("GFlops = %10.3lf, Secs = %10.3lf, GFlops per sec = %10.3lf\r\n",
                      gflops, ttime, gflops/ttime);
-         }	 
+         }
          return( 0 );
 }
-

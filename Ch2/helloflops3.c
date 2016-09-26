@@ -2,7 +2,7 @@
 //
 // helloflops2
 //
-// A simple example that gets lots of Flops (Floating Point Operations) on 
+// A simple example that gets lots of Flops (Floating Point Operations) on
 // Intel(r) Xeon Phi(tm) co-processors using openmp to scale
 //
 
@@ -12,8 +12,8 @@
 #include <omp.h>
 #include <sys/time.h>
 
-// dtime 
-// 
+// dtime
+//
 // returns the current wall clock time
 //
 double dtime()
@@ -25,21 +25,21 @@ double dtime()
     return( tseconds );
 }
 
-#define FLOPS_ARRAY_SIZE (1024*1024) 
+#define FLOPS_ARRAY_SIZE (1024*1024)
 #define MAXFLOPS_ITERS 100000000
 #define LOOP_COUNT 128
 
 // number of float pt ops per calculation
-#define FLOPSPERCALC 2     
-// define some arrays - 
+#define FLOPSPERCALC 2
+// define some arrays -
 // make sure they are 64 byte aligned
-// for best cache access 
-float fa[FLOPS_ARRAY_SIZE] __attribute__((align(64)));
-float fb[FLOPS_ARRAY_SIZE] __attribute__((align(64)));
+// for best cache access
+float fa[FLOPS_ARRAY_SIZE] __attribute__((aligned(64)));
+float fb[FLOPS_ARRAY_SIZE] __attribute__((aligned(64)));
 //
 // Main program - pedal to the metal...calculate using tons o'flops!
-// 
-int main(int argc, char *argv[] ) 
+//
+int main(int argc, char *argv[] )
 {
     int i,j,k;
     int numthreads;
@@ -48,7 +48,7 @@ int main(int argc, char *argv[] )
     float a=1.1;
 
     //
-    // initialize the compute arrays 
+    // initialize the compute arrays
     //
     //
 
@@ -62,12 +62,12 @@ int main(int argc, char *argv[] )
     {
         fa[i] = (float)i + 0.1;
         fb[i] = (float)i + 0.2;
-    }	
+    }
     printf("Starting Compute on %d threads\r\n",numthreads);
 
     tstart = dtime();
-	
-    // scale the calculation across threads requested 
+
+    // scale the calculation across threads requested
     // need to set environment variables OMP_NUM_THREADS and KMP_AFFINITY
 
 #pragma omp parallel for private(j,k)
@@ -78,19 +78,19 @@ int main(int argc, char *argv[] )
         int offset = i*LOOP_COUNT;
 
         // loop many times to get lots of calculations
-        for(j=0; j<MAXFLOPS_ITERS; j++)  
+        for(j=0; j<MAXFLOPS_ITERS; j++)
         {
-            // scale 1st array and add in the 2nd array 
-            for(k=0; k<LOOP_COUNT; k++)  
+            // scale 1st array and add in the 2nd array
+            for(k=0; k<LOOP_COUNT; k++)
    	    {
                 fa[k+offset] = a * fa[k+offset] + fb[k+offset];
             }
         }
     }
     tstop = dtime();
-    // # of gigaflops we just calculated  
+    // # of gigaflops we just calculated
     gflops = (double)( 1.0e-9*numthreads*LOOP_COUNT*
-                        MAXFLOPS_ITERS*FLOPSPERCALC);    
+                        MAXFLOPS_ITERS*FLOPSPERCALC);
 
     //elasped time
     ttime = tstop - tstart;
@@ -103,4 +103,3 @@ int main(int argc, char *argv[] )
     }
     return( 0 );
 }
-
